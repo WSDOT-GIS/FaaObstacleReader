@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using Hemi = FaaObstruction.Hemisphere;
+using Hemi = Faa.Contracts.Hemisphere;
+using System.Text.RegularExpressions;
 
-namespace FaaObstruction
+namespace Faa.Contracts
 {
 	public struct Dms
 	{
+		private static readonly Regex _dmsRegex = new Regex(@"(?<degrees>\d+)\s(?<minutes>\d+)\s(?<seconds>\d{2}\.\d{2})(?<hemisphere>[NESW])");
+
 		private int _degrees;
 		private int _minutes;
 		private float _seconds;
@@ -17,27 +20,23 @@ namespace FaaObstruction
 		public int Degrees
 		{
 			get { return _degrees; }
-			set { _degrees = value; }
 		}
 
 		public int Minutes
 		{
 			get { return _minutes; }
-			set { _minutes = value; }
 		}
 
 
 		public float Seconds
 		{
 			get { return _seconds; }
-			set { _seconds = value; }
 		}
 
 
 		public Hemisphere? Hemisphere
 		{
 			get { return _hemisphere; }
-			set { _hemisphere = value; }
 		}
 
 		/// <summary>
@@ -79,11 +78,11 @@ namespace FaaObstruction
 			{
 				if (isLatitude)
 				{
-					_hemisphere = decimalDegrees > 0 ? FaaObstruction.Hemisphere.North : FaaObstruction.Hemisphere.South;
+					_hemisphere = decimalDegrees > 0 ? Faa.Contracts.Hemisphere.North : Faa.Contracts.Hemisphere.South;
 				}
 				else
 				{
-					_hemisphere = decimalDegrees > 0 ? FaaObstruction.Hemisphere.East : FaaObstruction.Hemisphere.West;
+					_hemisphere = decimalDegrees > 0 ? Faa.Contracts.Hemisphere.East : Faa.Contracts.Hemisphere.West;
 				}
 			}
 		}
@@ -121,6 +120,50 @@ namespace FaaObstruction
 		public static bool operator !=(Dms dms1, Dms dms2)
 		{
 			return !dms1.Equals(dms2);
+		}
+
+		/// <summary>
+		/// Parses a string into a <see cref="Dms"/>.
+		/// </summary>
+		/// <param name="input"></param>
+		/// <returns>Returns a <see cref="Dms"/> if successful, <see langword="null"/> otherwise.</returns>
+		public static Dms? TryParse(string input)
+		{
+			if (input == null) return null;
+		
+			var match = _dmsRegex.Match(input);
+			
+			if (match == null) return null;
+
+			var groups = match.Groups;
+
+			return new Dms(
+				int.Parse(groups["degrees"].Value),
+				int.Parse(groups["minutes"].Value),
+				float.Parse(groups["seconds"].Value),
+				(Hemisphere)groups["hemisphere"].Value[0]
+			);
+
+			#region Alternate method
+			////int degrees, minutes;
+			////float seconds;
+			////Hemisphere? hemi;
+
+			////if (int.TryParse(input.Substring(35, 2), out degrees) &&
+			////    int.TryParse(input.Substring(38, 2), out minutes) &&
+			////    float.TryParse(input.Substring(41, 5), out seconds))
+			////{
+			////    hemi = input[46] != ' ' ? (Hemisphere)input[46] : default(Hemisphere?);
+			////    return new Dms(degrees, minutes, seconds, hemi);
+			////}
+			////else
+			////{
+			////    return null;
+			////} 
+			#endregion
+
+
+
 		}
 	}
 
