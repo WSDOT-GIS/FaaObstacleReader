@@ -9,8 +9,19 @@ namespace Faa.Contracts
 {
 	public class Obstacle
 	{
+		/*
+		Important Information on Horizontal and Vertical Datums
+		
+		The World Geodetic System 1984 (WGS 84) is used as the horizontal datum for all DOF data. All obstacle data has been converted to WGS 84 as of November 19, 2007.
+		
+		All obstacle data identified with a Julian Date on or after the 71st day of 2001 will be placed in the North American Vertical Datum of 1988 (NAVD88). 
+		All other elevations in the Digital Obstacle File are in the National Geodetic Vertical Datum of 1929.
+		 */
+
+		// DOF stores the date as a Juilan date: year followed by the number of days elapsed in that year.
 		private static readonly Regex _julianDateRe = new Regex(@"(?<year>\d{4})(?<days>\d{3})");
-		private static readonly Calendar _calendar = new JulianCalendar();
+
+		private static readonly DateTime _navd88SwitchDate = new DateTime(2001, 1, 1).AddDays(70);
 
 		/// <summary>
 		/// ORS Code
@@ -53,7 +64,15 @@ namespace Faa.Contracts
 		/// </summary>
 		public Action Action { get; set; }
 
-		public DateTime JulianDate { get; set; }
+		public DateTime Date { get; set; }
+
+		public VerticalDatum VerticalDatum
+		{
+			get
+			{
+				return this.Date >= _navd88SwitchDate ? VerticalDatum.Navd88 : VerticalDatum.Ngvd29;
+			}
+		}
 
 		private static DateTime ParseDate(string dateString)
 		{
@@ -105,7 +124,7 @@ namespace Faa.Contracts
 				MarkIndicator = line[95] != ' ' ? (MarkingType)line[95] : default(MarkingType?),
 				FaaStudyNumber = line.Substring(97, 110-97+1).Trim(),
 				Action = (Action)line[112],
-				JulianDate = ParseDate(line.Substring(114, 120-114+1)),
+				Date = ParseDate(line.Substring(114, 120-114+1)),
 				Latitude = Dms.TryParse(line.Substring(35, 46-35+1)) ?? default(Dms),
 				Longitude = Dms.TryParse(line.Substring(48, 60-48+1)) ?? default(Dms)
 			};
