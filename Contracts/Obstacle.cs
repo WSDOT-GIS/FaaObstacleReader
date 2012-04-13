@@ -105,7 +105,9 @@ namespace Faa.Contracts
 				MarkIndicator = line[95] != ' ' ? (MarkingType)line[95] : default(MarkingType?),
 				FaaStudyNumber = line.Substring(97, 110-97+1).Trim(),
 				Action = (Action)line[112],
-				JulianDate = ParseDate(line.Substring(114, 120-114+1)) //DateTime.ParseExact(line.Substring(114, 120-114+1), "yyyyMMdd", DateTimeFormatInfo.CurrentInfo)
+				JulianDate = ParseDate(line.Substring(114, 120-114+1)),
+				Latitude = Dms.TryParse(line.Substring(35, 46-35+1)) ?? default(Dms),
+				Longitude = Dms.TryParse(line.Substring(48, 60-48+1)) ?? default(Dms)
 			};
 
 			int tempInt;

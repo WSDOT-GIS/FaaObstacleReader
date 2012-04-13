@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Faa.Contracts;
-using System.Reflection;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+using Faa.Contracts;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FaaObstructionTest
 {
