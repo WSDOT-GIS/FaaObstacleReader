@@ -1,0 +1,1 @@
+This library provides the ability to read the [Federal Aviation Administration (FAA) Terrain and Obstacles Data (TOD) Team - Digital Obstacle File (DOF) files](https://nfdc.faa.gov/tod/public/TOD_DOF.html).
