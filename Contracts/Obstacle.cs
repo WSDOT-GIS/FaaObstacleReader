@@ -28,31 +28,74 @@ namespace Faa.Contracts
 		/// </summary>
 		public string OrsCode { get; set; }
 
+		/// <summary>
+		/// Obstacle Number
+		/// </summary>
 		public string ObstacleNumber { get; set; }
 
+		/// <summary>
+		/// Verification Status
+		/// </summary>
 		public VerificationStatus VerificationStatus { get; set; }
 
+		/// <summary>
+		/// Country Identifier
+		/// </summary>
 		public string CountryIdentifier { get; set; }
 
+		/// <summary>
+		/// State Identifier
+		/// </summary>
 		public string StateIdentifier { get; set; }
 
+		/// <summary>
+		/// City Name
+		/// </summary>
 		public string CityName { get; set; }
 
+		/// <summary>
+		/// Latitude
+		/// </summary>
 		public Dms Latitude { get; set; }
+
+		/// <summary>
+		/// Longitude
+		/// </summary>
 		public Dms Longitude { get; set; }
 
+		/// <summary>
+		/// Obstacle Type
+		/// </summary>
 		public string ObstacleType { get; set; }
 
+		/// <summary>
+		/// Quantity
+		/// </summary>
 		public int Quantity { get; set; }
 
+		/// <summary>
+		/// Above Ground Level Height (in feet)
+		/// </summary>
 		public int AboveGroundLevelHeightInFeet { get; set; }
 
+		/// <summary>
+		/// Above Mean Sea Level Height (in feet)
+		/// </summary>
 		public int AboveMeanSeaLevelHeightInFeet { get; set; }
 
+		/// <summary>
+		/// Lighting
+		/// </summary>
 		public Lighting Lighting { get; set; }
 
+		/// <summary>
+		/// Horizontal Accuracy
+		/// </summary>
 		public int? HorizontalAccuracy { get; set; }
 
+		/// <summary>
+		/// Vertical Accuracy
+		/// </summary>
 		public char? VerticalAccuracy { get; set; }
 
 		public MarkingType? MarkIndicator { get; set; }
@@ -66,6 +109,10 @@ namespace Faa.Contracts
 
 		public DateTime Date { get; set; }
 
+		/// <summary>
+		/// All obstacle data identified with a Julian Date on or after the 71st day of 2001 will be placed in the North American Vertical Datum of 1988 (NAVD88). 
+		/// All other elevations in the Digital Obstacle File are in the National Geodetic Vertical Datum of 1929.
+		/// </summary>
 		public VerticalDatum VerticalDatum
 		{
 			get
