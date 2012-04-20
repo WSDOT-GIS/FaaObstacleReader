@@ -67,6 +67,8 @@
     <Compile Include="Obstacle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VerificationStatus.cs" />
+    <Compile Include="HorizontalAccuracy.cs" />
+    <Compile Include="VerticalAccuracy.cs" />
     <Compile Include="VerticalDatum.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -91,15 +91,21 @@ namespace Faa.Contracts
 		/// <summary>
 		/// Horizontal Accuracy
 		/// </summary>
-		public int? HorizontalAccuracy { get; set; }
+		public HorizontalAccuracy? HorizontalAccuracy { get; set; }
 
 		/// <summary>
 		/// Vertical Accuracy
 		/// </summary>
-		public char? VerticalAccuracy { get; set; }
+		public VerticalAccuracy? VerticalAccuracy { get; set; }
 
+		/// <summary>
+		/// Mark indicator
+		/// </summary>
 		public MarkingType? MarkIndicator { get; set; }
 
+		/// <summary>
+		/// FAA Study Number
+		/// </summary>
 		public string FaaStudyNumber { get; set; }
 
 		/// <summary>
@@ -107,6 +113,9 @@ namespace Faa.Contracts
 		/// </summary>
 		public Action Action { get; set; }
 
+		/// <summary>
+		/// The date that the obstacle was recorded.
+		/// </summary>
 		public DateTime Date { get; set; }
 
 		/// <summary>
@@ -121,6 +130,11 @@ namespace Faa.Contracts
 			}
 		}
 
+		/// <summary>
+		/// Parses a "Julian Date" string into a <see cref="DateTime"/>.
+		/// </summary>
+		/// <param name="dateString">One of the "Julian Date" values from the Digital Obstacle File.</param>
+		/// <returns>The <see cref="DateTime"/> equivalent of the input string, or <see langword="null"/> if the string can't be parsed.</returns>
 		private static DateTime ParseDate(string dateString)
 		{
 			var match = _julianDateRe.Match(dateString);
@@ -140,7 +154,7 @@ namespace Faa.Contracts
 			return output;
 		}
 
-		public static Obstacle TryParse(string line)
+		public static Obstacle Parse(string line)
 		{
 			Obstacle obstacle = null;
 
@@ -167,7 +181,7 @@ namespace Faa.Contracts
 				AboveGroundLevelHeightInFeet = int.Parse(line.Substring(77, 81-77+1)),
 				AboveMeanSeaLevelHeightInFeet = int.Parse(line.Substring(83,88-83+1)),
 				Lighting = (Lighting)line[89],
-				VerticalAccuracy = line[93] != ' ' ? line[93] : default(char?),
+				VerticalAccuracy = line[93] != ' ' ? (VerticalAccuracy)line[93] : default(VerticalAccuracy?),
 				MarkIndicator = line[95] != ' ' ? (MarkingType)line[95] : default(MarkingType?),
 				FaaStudyNumber = line.Substring(97, 110-97+1).Trim(),
 				Action = (Action)line[112],
@@ -180,7 +194,7 @@ namespace Faa.Contracts
 
 			if (int.TryParse(line.Substring(91), out tempInt))
 			{
-				obstacle.HorizontalAccuracy = tempInt;
+				obstacle.HorizontalAccuracy = (HorizontalAccuracy)tempInt;
 			}
 
 

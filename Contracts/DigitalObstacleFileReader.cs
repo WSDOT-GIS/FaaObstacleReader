@@ -43,7 +43,7 @@ namespace Faa.Contracts
 		public Obstacle ReadObstacle()
 		{
 			string line = base.ReadLine();
-			var obstacle = Obstacle.TryParse(line);
+			var obstacle = Obstacle.Parse(line);
 
 			return obstacle;
 		}
@@ -56,7 +56,7 @@ namespace Faa.Contracts
 
 			while (line != null)
 			{
-				list.Add(Obstacle.TryParse(line));
+				list.Add(Obstacle.Parse(line));
 				line = base.ReadLine();
 			}
 
