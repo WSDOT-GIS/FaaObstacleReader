@@ -2,3 +2,7 @@ bin
 obj
 *.suo
 TestResults
+*.gdb
+.project
+.pydevproject
+.settings
